@@ -1,0 +1,16 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+.button {
+  font-size: 14px;
+  font-weight: 400;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: rgb(231, 22, 22);
+  color: #fff;
+  cursor: pointer;
+}
