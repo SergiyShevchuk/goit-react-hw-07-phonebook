@@ -16,42 +16,38 @@ class App extends React.Component {
     ],
     filter:''
   };
-  
-  
+
+   formSubmitHandler = (newContact) => {
+    // console.log("newContact", newContact);
+
+    const checkedContact = this.state.contacts.find(
+      (contact) => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    );
+
+    if (!checkedContact) {
+      newContact.id = nanoid();
+
+      this.setState((prevState) => ({
+        contacts: [newContact, ...prevState.contacts],
+      }));
+    } else {
+      // console.log(
+      //   "checkedContact name is the same as old contact -",
+      //   newContact.name
+      // );
+      alert(newContact.name + " is already in contacts.");
+    }
+  };
+
   deleteContact = idContact => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact=>contact.id!==idContact),
     }))
   }
 
-
-  formSubmitHandler = data => {
-    const contact = {
-      id: nanoid(),
-      name: data.name,
-      number: data.number,
-    }; 
-
-    for (const item of this.state.contacts) {
-      if (item.name.toLowerCase() === data.name.toLowerCase()) {
-        alert(`${item.name} is already in contacts`);
-        return;
-      }
-    }
-
-    this.setState((prevState) => {     
-      return {
-        contacts: [contact, ...prevState.contacts],
-      }
-    });
-  }
-
   changeFilter = event => {
     this.setState({filter: event.currentTarget.value})
    };
-
-  
-  
 
   render() {
 
@@ -63,7 +59,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Phonebook</h1>
-        <Form onSubmit={this.formSubmitHandler}/>        
+        <Form onSubmit={this.formSubmitHandler}/>
         <h2>Contacts</h2>
         <Filter value={this.state.filter} onChange={this.changeFilter}/>
         <ContactList contacts={filtredContacts} onDeleteContact={this.deleteContact}/>
