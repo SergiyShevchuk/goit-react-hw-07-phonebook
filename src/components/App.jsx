@@ -18,8 +18,6 @@ class App extends React.Component {
   };
 
    formSubmitHandler = (newContact) => {
-    // console.log("newContact", newContact);
-
     const checkedContact = this.state.contacts.find(
       (contact) => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
@@ -31,10 +29,6 @@ class App extends React.Component {
         contacts: [newContact, ...prevState.contacts],
       }));
     } else {
-      // console.log(
-      //   "checkedContact name is the same as old contact -",
-      //   newContact.name
-      // );
       alert(newContact.name + " is already in contacts.");
     }
   };
@@ -48,6 +42,22 @@ class App extends React.Component {
   changeFilter = event => {
     this.setState({filter: event.currentTarget.value})
    };
+
+   componentDidMount() {
+
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts, });
+    };
+  };
+
+  componentDidUpdate( prevState ) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    };
+  };
+
 
   render() {
 
