@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import PropTypes from 'prop-types';
 import styles from './Form.module.css';
 
@@ -39,7 +40,6 @@ function Form({ onSubmit }) {
           value={name}
           onChange={changeInputName}
           className={styles.input}
-          placeholder="Name..."
         />
       </label>
       <label className={styles.label}>
@@ -53,7 +53,6 @@ function Form({ onSubmit }) {
           value={number}
           onChange={changeInputNumber}
           className={styles.input}
-          placeholder="Number..."
         />
       </label>
       <button className={styles.button} type="submit">
