@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import Form from './Form';
 import ContactList from './ContactList';
 import Filter from './Filter';
-
 function App() {
   return (
     <div>
