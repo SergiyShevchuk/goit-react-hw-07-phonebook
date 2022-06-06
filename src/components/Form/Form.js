@@ -1,11 +1,16 @@
 import { useState } from 'react';
-
+import {
+  useFetchContactsQuery,
+  useCreateContactMutation,
+} from '../../redux/slice';
 import PropTypes from 'prop-types';
 import styles from './Form.module.css';
 
-function Form({ onSubmit }) {
+function Form() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const { data: contacts } = useFetchContactsQuery();
+  const [createContact, { isLoading }] = useCreateContactMutation();
 
   const changeInputName = event => {
     setName(event.currentTarget.value);
@@ -17,8 +22,19 @@ function Form({ onSubmit }) {
 
   const formSubmit = event => {
     event.preventDefault();
-    const data = { name, number };
-    onSubmit(data);
+
+    const data = { name, phone: number };
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+
+    createContact(data);
+
     reset();
   };
 
@@ -55,7 +71,7 @@ function Form({ onSubmit }) {
           className={styles.input}
         />
       </label>
-      <button className={styles.button} type="submit">
+      <button className={styles.button} type="submit" disabled={isLoading}>
         Add contact
       </button>
     </form>
